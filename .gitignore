@@ -1,3 +1,4 @@
 ref/
 mycbr/
 data/.ipynb_checkpoints
+**/*.class
