@@ -19,6 +19,7 @@ import de.dfki.mycbr.core.similarity.config.*;
 public class TermPaperCBR{
 
 	public static ArrayList<TermPaper> cases;
+	public static HashMap<String,TermPaper> case_map;
 
 	public static void main (String[] args) throws Exception{
 		getCases(args[0]);
@@ -31,20 +32,6 @@ public class TermPaperCBR{
 			// Add descriptions for the concepts along with their domains. Look for classes of the type *Desc.
 			IntegerDesc daysDesc = new IntegerDesc(termpaper,"days_late",0,20);
 			BooleanDesc medcertDesc = new BooleanDesc(termpaper,"med_cert");
-			
-			// Done Till here
-			// add symbol attribute
-			/*HashSet<String> manufacturers = new HashSet<String>();
-			String[] manufacturersArray = { "BMW", "Audi", "VW", "Ford",
-					"Mercedes", "SEAT", "FIAT" };
-			manufacturers.addAll(Arrays.asList(manufacturersArray));
-			SymbolDesc manufacturerDesc = new SymbolDesc(car,"manufacturer",manufacturers);*/
-			
-			// add table function
-			/*SymbolFct manuFct = manufacturerDesc.addSymbolFct("manuFct", true);
-			manuFct.setSimilarity("BMW", "Audi", 0.60d);
-			manuFct.setSimilarity("Audi", "VW", 0.20d);
-			manuFct.setSimilarity("VW", "Ford", 0.40d);*/
 			
 			// Add a similarity function for the attribute using the add*Fct function. The function types can be specified(refer documentation)
 			IntegerFct dayFct = daysDesc.addIntegerFct("dayfct",true);
@@ -76,6 +63,7 @@ public class TermPaperCBR{
 				i.addAttribute(daysDesc,cases.get(j).days_late);
 				i.addAttribute(medcertDesc,cases.get(j).med_cert);
 				cb.addCase(i);
+				case_map.put("tp"+j,cases.get(j));				
 			}
 			
 			// set up query and retrieval. the retrieval method, number of cases to retrieve can be set
@@ -83,13 +71,29 @@ public class TermPaperCBR{
 			Retrieval r = new Retrieval(termpaper,cb);
 			r.setRetrievalMethod(Retrieval.RetrievalMethod.RETRIEVE_K_SORTED);
 			r.setK(10);
-			Instance q = r.getQueryInstance();	
-			q.addAttribute(daysDesc.getName(),5);
-			q.addAttribute(medcertDesc.getName(),false);
+			Instance q = r.getQueryInstance();
+			
+			// Get input
+			Scanner in = new Scanner(System.in);
+			int days;
+			boolean med_cert;
+			System.out.print("Enter the number of days late: ");
+			days = in.nextInt();
+			System.out.print("Is medical certificate submitted? Enter \"true\" or \"false\": ");
+			med_cert = in.nextBoolean();	
+			q.addAttribute(daysDesc.getName(),days);
+			q.addAttribute(medcertDesc.getName(),med_cert);
 			
 			r.start();
 
-			print(r);
+			//print(r);
+			boolean isAccepted = getPrediction(r);
+			if(isAccepted){
+				System.out.println("Term paper Accepted");
+			}
+			else{
+				System.out.println("Term paper Rejected");
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -104,9 +108,27 @@ public class TermPaperCBR{
 		}
 	}
 	
+	public static boolean getPrediction(Retrieval r){
+		int num_true = 0;
+		int num_false = 0;
+		for (Map.Entry<Instance, Similarity> entry: r.entrySet()) {
+			if(case_map.get(entry.getKey().getName()).accepted){
+				num_true += 1;
+			}
+			else{
+				num_false += 1;
+			}
+		}
+		if(num_true > num_false){
+			return true;
+		}
+		return false;
+	}
+	
 	public static void getCases(String fileName) throws Exception{
 		List<String> lines = Files.readAllLines(Paths.get(fileName));
 		cases = new ArrayList<TermPaper>();
+		case_map = new HashMap<String,TermPaper>();
 		String[] line_split;
 		int days;
 		boolean med, acc;
