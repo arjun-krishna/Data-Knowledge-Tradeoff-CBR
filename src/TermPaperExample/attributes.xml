@@ -1,0 +1,27 @@
+<root>
+	<attribute> 
+		<name>days_late</name>
+		<type>quantitative</type>
+		<levels> 
+			<value>LOW</value>
+			<value>MID</value>
+			<value>HIGH</value>
+		</levels>
+	</attribute>
+	<attribute> 
+		<name>medical_certificate</name>
+		<type>categorical</type>
+		<levels> 
+			<value>NO</value>
+			<value>YES</value>
+		</levels>
+	</attribute>
+	<attribute>
+		<name>accepted</name>
+		<type>categorical</type>
+		<levels> 
+			<value>NO</value>
+			<value>YES</value>
+		</levels>
+	</attribute>
+</root>
