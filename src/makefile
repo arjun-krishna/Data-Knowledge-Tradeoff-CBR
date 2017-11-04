@@ -4,6 +4,9 @@ test : MyCBRTest.class
 MyCBRTest.class : MyCBRTest.java
 	javac -cp .:myCBR-3.1.jar MyCBRTest.java
 	
+termpaper_reduced: TermPaperCBR.class
+	java -cp .:myCBR-3.1.jar TermPaperCBR ../data/term_paper_reduced.csv
+	
 termpaper: TermPaperCBR.class
 	java -cp .:myCBR-3.1.jar TermPaperCBR ../data/term_paper_data.csv
 	
