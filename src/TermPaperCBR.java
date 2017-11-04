@@ -207,7 +207,7 @@ public class TermPaperCBR{
 	}
 	
 	public static float fuzzy_reason(float[] input){
-		float[] params = {0.8f,0.45f,0.03f,0.76f,0.3f};
+		float[] params = {1.0f,0.45f,0.03f,0.76f,0.3f};
 		float[] weights = {0.5f,0.5f};
 		float[] vals ={0.0f,0.0f};
 		float val=0.0f;
