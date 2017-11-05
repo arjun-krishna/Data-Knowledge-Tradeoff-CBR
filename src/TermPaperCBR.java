@@ -207,22 +207,23 @@ public class TermPaperCBR{
 	}
 	
 	public static float fuzzy_reason(float[] input){
-		float[] params = {1.0f,0.45f,0.03f,0.76f,0.3f};
-		float[] weights = {0.5f,0.5f};
-		float[] vals ={0.0f,0.0f};
+		//float[] params = {1.0f,0.45f,0.03f,0.76f,0.3f};
+		//float[] weights = {0.5f,0.5f};
+		//float[] vals ={0.0f,0.0f};
+		float[] params = {0.5f,0.225f,0.015f,0.38f,0.15f};
 		float val=0.0f;
 		for(int i=0;i<3;i++){
 			//vals[0] = Math.max(vals[0],Math.min(params[i],input[i]));
-			vals[0] += params[i]*input[i];
+			val += params[i]*input[i];
 		}
 		for(int i=3;i<5;i++){
 			//vals[1] = Math.max(vals[1],Math.min(params[i],input[i]));
-			vals[1] += params[i]*input[i];
+			val += params[i]*input[i];
 		}
 		
-		for(int i=0;i<vals.length;i++){
+		/*for(int i=0;i<vals.length;i++){
 			val += weights[i]*vals[i];
-		}
+		}*/
 		System.out.println(val);
 		return val;
 	}
