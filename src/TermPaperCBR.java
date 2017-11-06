@@ -85,7 +85,7 @@ public class TermPaperCBR{
 			q.addAttribute(medcertDesc.getName(),med_cert);
 			
 			// Use knowledge from adaptation container
-			float output;
+			double output;
 			output = adaptSolution(days, med_cert);
 			
 			// If knowledge from adaptation container is not sufficient, i.e. the output is in the fuzzy region, use the knowledge from the case base container.
@@ -165,18 +165,18 @@ public class TermPaperCBR{
 		}
 	}
 	
-	public static float adaptSolution(int days_late, boolean med_cert){
+	public static double adaptSolution(int days_late, boolean med_cert){
 		float[] fuzzy_in = fuzzifyQuery(days_late,med_cert);
 		for(int i=0;i<fuzzy_in.length;i++){
 			System.out.print(fuzzy_in[i]+" ");
 		} 
 		System.out.println();
-		float fuzzy_out = fuzzy_reason(fuzzy_in);
+		double fuzzy_out = fuzzy_reason(fuzzy_in);
 		return fuzzy_out;
 	}
 	
 	public static float[] fuzzifyQuery(int days_late, boolean med_cert){
-		float[] arr = new float[5];
+		float[] arr = new float[4];
 		float[] fuzzify_params = {0,3,0,3,4,10,1,3,12,15,2,2}; // Params are left boundary, right boundary, left width, right width
 		for(int i=0;i<3;i++){
 			if(days_late<fuzzify_params[i*4]-fuzzify_params[i*4+2]){
@@ -197,20 +197,18 @@ public class TermPaperCBR{
 		}
 		if(med_cert){
 			arr[3] = 1;
-			arr[4] = 0;
 		}
 		else{
 			arr[3] = 0;
-			arr[4] = 1;
 		}
 		return arr;
 	}
 	
-	public static float fuzzy_reason(float[] input){
+	public static double fuzzy_reason(float[] input){
 		//float[] params = {1.0f,0.45f,0.03f,0.76f,0.3f};
 		//float[] weights = {0.5f,0.5f};
 		//float[] vals ={0.0f,0.0f};
-		float[] params = {0.5f,0.225f,0.015f,0.38f,0.15f};
+		/*float[] params = {0.5f,0.225f,0.015f,0.38f,0.15f};
 		float val=0.0f;
 		for(int i=0;i<3;i++){
 			//vals[0] = Math.max(vals[0],Math.min(params[i],input[i]));
@@ -224,6 +222,12 @@ public class TermPaperCBR{
 		/*for(int i=0;i<vals.length;i++){
 			val += weights[i]*vals[i];
 		}*/
+		double val = 0.0f;
+		double[] params = {0.7441942, 0.29220159, 0.02981746, 0.46443248};
+		for(int i=0;i<input.length;i++){
+			//val += params[i]*input[i];
+			val = Math.max(val,Math.min(params[i],input[i]));
+		}
 		System.out.println(val);
 		return val;
 	}

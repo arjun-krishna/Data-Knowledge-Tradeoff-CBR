@@ -1,0 +1,265 @@
+<root>
+	<attribute> 
+		<name>NumberOfPersons</name>
+		<type>
+			<domain>continuous</domain>
+			<num_levels> 3 </num_levels>
+			<var>known</var>
+			<isFuzzy>1</isFuzzy>
+		</type>
+		
+		<levels> 
+			<value>
+				<name> LOW </name>
+				<function> 
+					<ul> None </ul>
+					<dl> None </dl>
+					<uh> 3 </uh>
+					<dh> 2 </dh>
+				</function>
+			</value>
+			<value>
+				<name> MID </name>
+				<function> 
+					<ul> 4 </ul>
+					<dl> 2 </dl>
+					<uh> 7 </uh>
+					<dh> 2 </dh>
+				</function>
+			</value>
+			<value>
+				<name> HIGH </name>
+				<function>
+					<ul> 8 </ul>
+					<dl> 2 </dl>
+					<uh> None </uh>
+					<dh> None </dh>
+				</function>
+			</value>
+		</levels>
+	</attribute>
+
+	<attribute> 
+		<name>isCar</name>
+		<type>
+			<domain>discrete</domain>
+			<num_levels> 2 </num_levels>
+			<var>known</var>
+			<isFuzzy>0</isFuzzy>
+		</type>
+	</attribute>
+	<attribute> 
+		<name>isTrain</name>
+		<type>
+			<domain>discrete</domain>
+			<num_levels> 2 </num_levels>
+			<var>known</var>
+			<isFuzzy>0</isFuzzy>
+		</type>
+	</attribute>
+	<attribute> 
+		<name>isPlane</name>
+		<type>
+			<domain>discrete</domain>
+			<num_levels> 2 </num_levels>
+			<var>known</var>
+			<isFuzzy>0</isFuzzy>
+		</type>
+	</attribute>
+	<attribute> 
+		<name>isCoach</name>
+		<type>
+			<domain>discrete</domain>
+			<num_levels> 2 </num_levels>
+			<var>known</var>
+			<isFuzzy>0</isFuzzy>
+		</type>
+	</attribute>
+	
+	<attribute> 
+		<name>Duration</name>
+		<type>
+			<domain>continuous</domain>
+			<num_levels> 3 </num_levels>
+			<var>known</var>
+			<isFuzzy>1</isFuzzy>
+		</type>
+		
+		<levels> 
+			<value>
+				<name> LOW </name>
+				<function> 
+					<ul> None </ul>
+					<dl> None </dl>
+					<uh> 7 </uh>
+					<dh> 3 </dh>
+				</function>
+			</value>
+			<value>
+				<name> MID </name>
+				<function> 
+					<ul> 7 </ul>
+					<dl> 2 </dl>
+					<uh> 14 </uh>
+					<dh> 3 </dh>
+				</function>
+			</value>
+			<value>
+				<name> HIGH </name>
+				<function>
+					<ul> 14 </ul>
+					<dl> 2 </dl>
+					<uh> None </uh>
+					<dh> None </dh>
+				</function>
+			</value>
+		</levels>
+	</attribute>
+	
+	<attribute> 
+		<name>Season</name>
+		<type>
+			<domain>continuous</domain>
+			<num_levels> 4 </num_levels>
+			<var>known</var>
+			<isFuzzy>1</isFuzzy>
+		</type>
+		
+		<levels> 
+			<value>
+				<name> Q1 </name>
+				<function> 
+					<ul> None </ul>
+					<dl> None </dl>
+					<uh> 3 </uh>
+					<dh> 1 </dh>
+				</function>
+			</value>
+			<value>
+				<name> Q2 </name>
+				<function> 
+					<ul> 4 </ul>
+					<dl> 1 </dl>
+					<uh> 6 </uh>
+					<dh> 1 </dh>
+				</function>
+			</value>
+			<value>
+				<name> Q3 </name>
+				<function>
+					<ul> 7 </ul>
+					<dl> 1 </dl>
+					<uh> 9 </uh>
+					<dh> 1 </dh>
+				</function>
+			</value>
+			<value>
+				<name> Q4 </name>
+				<function>
+					<ul> 10 </ul>
+					<dl> 1 </dl>
+					<uh> None </uh>
+					<dh> None </dh>
+				</function>
+			</value>
+		</levels>
+	</attribute>
+	
+	<attribute> 
+		<name>Accommodation</name>
+		<type>
+			<domain>continuous</domain>
+			<num_levels> 3 </num_levels>
+			<var>known</var>
+			<isFuzzy>1</isFuzzy>
+		</type>
+		
+		<levels> 
+			<value>
+				<name> LOW </name>
+				<function> 
+					<ul> None </ul>
+					<dl> None </dl>
+					<uh> 2 </uh>
+					<dh> 1 </dh>
+				</function>
+			</value>
+			<value>
+				<name> MID </name>
+				<function> 
+					<ul> 3 </ul>
+					<dl> 1 </dl>
+					<uh> 4 </uh>
+					<dh> 1 </dh>
+				</function>
+			</value>
+			<value>
+				<name> HIGH </name>
+				<function>
+					<ul> 5 </ul>
+					<dl> 1 </dl>
+					<uh> None </uh>
+					<dh> None </dh>
+				</function>
+			</value>
+		</levels>
+	</attribute>	
+	
+	<attribute>
+		<name>Price</name>
+		<type>
+			<domain>continuous</domain>
+			<num_levels> 5 </num_levels>
+			<var>unknown</var>
+			<isFuzzy>1</isFuzzy>
+		</type>
+		
+		<levels> 
+			<value>
+				<name> VERY_LOW </name>
+				<function> 
+					<ul> None </ul>
+					<dl> None </dl>
+					<uh> 1200 </uh>
+					<dh> 400 </dh>
+				</function>
+			</value>
+			<value>
+				<name> LOW </name>
+				<function> 
+					<ul> 1600 </ul>
+					<dl> 400 </dl>
+					<uh> 3000 </uh>
+					<dh> 400 </dh>
+				</function>
+			</value>
+			<value>
+				<name> MID </name>
+				<function> 
+					<ul> 3400 </ul>
+					<dl> 400 </dl>
+					<uh> 4500 </uh>
+					<dh> 400 </dh>
+				</function>
+			</value>
+			<value>
+				<name> HIGH </name>
+				<function>
+					<ul> 4900 </ul>
+					<dl> 400 </dl>
+					<uh> 6000 </uh>
+					<dh> 400 </dh>
+				</function>
+			</value>
+			<value>
+				<name> VERY_HIGH </name>
+				<function>
+					<ul> 6400 </ul>
+					<dl> 400 </dl>
+					<uh> None </uh>
+					<dh> None </dh>
+				</function>
+			</value>
+		</levels>
+	</attribute>
+</root>
