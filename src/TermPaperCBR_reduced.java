@@ -16,7 +16,7 @@ import de.dfki.mycbr.core.similarity.SymbolFct;
 import de.dfki.mycbr.core.similarity.*;
 import de.dfki.mycbr.core.similarity.config.*;
 
-public class TermPaperCBR{
+public class TermPaperCBR_reduced{
 
 	public static ArrayList<TermPaper> cases;
 	public static HashMap<String,TermPaper> case_map;
@@ -84,8 +84,8 @@ public class TermPaperCBR{
 			q.addAttribute(daysDesc.getName(),days);
 			q.addAttribute(medcertDesc.getName(),med_cert);
 			
-			// Use knowledge from adaptation container, fuzzy reasoning is actually some sort of vocabulary
-			/*double output;
+			// Use knowledge from adaptation container
+			double output;
 			output = adaptSolution(days, med_cert);
 			
 			// If knowledge from adaptation container is not sufficient, i.e. the output is in the fuzzy region, use the knowledge from the case base container.
@@ -107,17 +107,7 @@ public class TermPaperCBR{
 			}
 			else{
 				System.out.println("Term paper Accepted(without using CB)");
-			}*/	
-			r.start();
-
-			//print(r);
-			boolean isAccepted = getPrediction(r);
-			if(isAccepted){
-				System.out.println("\nTerm paper Accepted(using CB)");
-			}
-			else{
-				System.out.println("\nTerm paper Rejected(using CB)");
-			}
+			}	
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -173,6 +163,75 @@ public class TermPaperCBR{
 			}
 			cases.add(new TermPaper(days,med,acc));
 		}
+	}
+	
+	public static double adaptSolution(int days_late, boolean med_cert){
+		float[] fuzzy_in = fuzzifyQuery(days_late,med_cert);
+		for(int i=0;i<fuzzy_in.length;i++){
+			System.out.print(fuzzy_in[i]+" ");
+		} 
+		System.out.println();
+		double fuzzy_out = fuzzy_reason(fuzzy_in);
+		return fuzzy_out;
+	}
+	
+	public static float[] fuzzifyQuery(int days_late, boolean med_cert){
+		float[] arr = new float[5];
+		float[] fuzzify_params = {0,3,0,3,4,10,1,3,12,15,2,2}; // Params are left boundary, right boundary, left width, right width
+		for(int i=0;i<3;i++){
+			if(days_late<fuzzify_params[i*4]-fuzzify_params[i*4+2]){
+				arr[i] = 0;
+			}
+			else if(days_late<fuzzify_params[i*4]){
+				arr[i] = ((float)(days_late-(fuzzify_params[i*4]-fuzzify_params[i*4+2])))/(fuzzify_params[i*4+2]);
+			}
+			else if(days_late<fuzzify_params[i*4+1]){
+				arr[i] = 1;
+			}
+			else if(days_late<fuzzify_params[i*4+1]+fuzzify_params[i*4+3]){
+				arr[i] = ((float)((fuzzify_params[i*4+1]+fuzzify_params[i*4+3]))-days_late)/(fuzzify_params[i*4+3]);
+			}	
+			else{
+				arr[i] = 0;
+			}	
+		}
+		if(med_cert){
+			arr[3] = 1;
+			arr[4] = 0;
+		}
+		else{
+			arr[3] = 0;
+			arr[4] = 1;
+		}
+		return arr;
+	}
+	
+	public static double fuzzy_reason(float[] input){
+		//float[] params = {1.0f,0.45f,0.03f,0.76f,0.3f};
+		//float[] weights = {0.5f,0.5f};
+		//float[] vals ={0.0f,0.0f};
+		double[] params = {0.5,0.225,0.015,0.38,0.15};
+		double val=0.0;
+		/*for(int i=0;i<3;i++){
+			//vals[0] = Math.max(vals[0],Math.min(params[i],input[i]));
+			val += params[i]*input[i];
+		}
+		for(int i=3;i<5;i++){
+			//vals[1] = Math.max(vals[1],Math.min(params[i],input[i]));
+			val += params[i]*input[i];
+		}
+		
+		for(int i=0;i<vals.length;i++){
+			val += weights[i]*vals[i];
+		}*/
+		/*double val = 0.0f;
+		double[] params = {0.7441942, 0.29220159, 0.02981746, 0.46443248};*/
+		for(int i=0;i<input.length;i++){
+			val += params[i]*input[i];
+			//val = Math.max(val,Math.min(params[i],input[i]));
+		}
+		System.out.println(val);
+		return val;
 	}
 }
 
