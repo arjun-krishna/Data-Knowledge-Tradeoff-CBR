@@ -20,8 +20,8 @@ public class TermPaper {
         // JFuzzyChart.get().chart(functionBlock);
 
         // Set inputs
-        functionBlock.setVariable("days_late", 8);
-        functionBlock.setVariable("medical_certificate", 0);
+        functionBlock.setVariable("days_late", 7);
+        functionBlock.setVariable("medical_certificate", 1);
 
         // Evaluate
         functionBlock.evaluate();
