@@ -1,0 +1,96 @@
+FUNCTION_BLOCK employee_data
+
+VAR_INPUT
+    daily_rate : REAL;
+    monthly_income : REAL;
+    total_working_years : REAL;
+    years_at_company : REAL;
+    distance_from_home : REAL;
+END_VAR
+
+VAR_OUTPUT
+    attrition : REAL;
+END_VAR
+
+FUZZIFY daily_rate
+	TERM very_low := (0,1) (375,1) (470,0);
+    TERM low := (350, 0) (400,1) (600, 1) (650,0); 
+    TERM mid := (600, 0) (650,1) (900,1) (950,0);
+    TERM high := (750, 0) (800, 1) (2000, 1);
+END_FUZZIFY
+
+FUZZIFY monthly_income
+    TERM very_low := (0,1) (3000,1) (3400,0);
+    TERM low := (3000, 0) (3500,1) (7000, 1) (8000,0); 
+    TERM mid := (6500, 0) (7000,1) (11000,1) (12000,0);
+    TERM high := (11000, 0) (12000, 1) (25000, 1);
+END_FUZZIFY
+
+FUZZIFY total_working_years
+	TERM very_low := (0,1) (6,1) (8,0);
+    TERM low := (6, 0) (8,1) (14, 1) (16,0); 
+    TERM mid := (14, 0) (16,1) (22,1) (24,0);
+    TERM high := (22, 0) (24, 1) (50, 1);
+END_FUZZIFY
+
+FUZZIFY years_at_company
+	TERM very_low := (0,1) (2,1) (3,0);
+    TERM low := (2, 0) (4,1) (7, 1) (8,0); 
+    TERM mid := (7, 0) (8,1) (11,1) (12,0);
+    TERM high := (11, 0) (12, 1) (25, 1);
+END_FUZZIFY
+
+FUZZIFY distance_from_home
+	TERM low := (0,1) (8,1) (10,0);
+	TERM mid := (8,0) (10,1) (15,1) (18,0);
+	TERM high := (18,0) (20,1) (40,1);
+END_FUZZIFY
+
+DEFUZZIFY attrition
+    TERM low := (0.0,1) (0.4,1) (0.5, 0);
+    TERM mid := (0.4,0) (0.5,1) (0.6,0);
+    TERM high := (0.6,0) (0.8,1) (1,1);
+    // Use 'Center Of Gravity' defuzzification method
+    METHOD : COG;
+    // Default value is 0 (if no rule activates defuzzifier)
+    DEFAULT := 0.5;
+END_DEFUZZIFY
+
+RULEBLOCK No1
+    AND : MIN;
+    ACT : MIN;
+    ACCU : MAX;
+
+                
+    RULE 1: IF daily_rate IS high AND monthly_income IS high AND total_working_years IS high AND distance_from_home IS low 
+                THEN attrition IS low;
+                
+    RULE 2: IF daily_rate IS high AND monthly_income IS high AND total_working_years IS mid AND distance_from_home IS low 
+                THEN attrition IS low;
+                
+    RULE 3: IF daily_rate IS high AND monthly_income IS high AND total_working_years IS high AND distance_from_home IS mid 
+                THEN attrition IS low;
+    
+    RULE 4: IF daily_rate IS high AND monthly_income IS high AND total_working_years IS mid AND distance_from_home IS mid 
+                THEN attrition IS low;
+                
+    RULE 5: IF daily_rate IS high AND monthly_income IS mid AND total_working_years IS high AND distance_from_home IS low 
+                THEN attrition IS low;
+                
+    RULE 6: IF daily_rate IS high AND monthly_income IS mid AND total_working_years IS mid AND distance_from_home IS low 
+                THEN attrition IS low;
+                
+    RULE 7: IF daily_rate IS high AND monthly_income IS mid AND total_working_years IS high AND distance_from_home IS mid 
+                THEN attrition IS low;
+    
+    RULE 8: IF daily_rate IS high AND monthly_income IS mid AND total_working_years IS mid AND distance_from_home IS mid 
+                THEN attrition IS low;
+                
+    RULE 9: IF daily_rate IS very_low AND monthly_income IS very_low AND total_working_years IS very_low AND distance_from_home IS high 
+                THEN attrition IS high;
+                
+    RULE 10: IF daily_rate IS very_low AND monthly_income IS very_low AND total_working_years IS very_low AND years_at_company IS very_low 
+                THEN attrition IS high;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
