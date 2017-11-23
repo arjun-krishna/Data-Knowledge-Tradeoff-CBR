@@ -23,7 +23,7 @@ END_FUZZIFY
 DEFUZZIFY acceptance
     TERM low := (0.0,1) (0.5, 0);
     TERM mid := (0.4,0) (0.5,1) (0.7,0);
-    TERM high := (0.6,0) (0.8,1);
+    TERM high := (0.6,0) (0.8,1) (1,1);
     // Use 'Center Of Gravity' defuzzification method
     METHOD : COG;
     // Default value is 0 (if no rule activates defuzzifier)

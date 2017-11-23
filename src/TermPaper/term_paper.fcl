@@ -1,0 +1,58 @@
+FUNCTION_BLOCK term_paper
+
+VAR_INPUT
+    days_late : REAL;
+    medical_certificate : REAL;
+END_VAR
+
+VAR_OUTPUT
+    acceptance : REAL;
+END_VAR
+
+FUZZIFY days_late
+    TERM low := (0, 1) (4, 0); 
+    TERM mid := (3, 0) (4,1) (6,1) (8,0);
+    TERM high := (6, 0) (9, 1);
+END_FUZZIFY
+
+FUZZIFY medical_certificate
+    TERM false := 0;
+    TERM true := 1;
+END_FUZZIFY
+
+DEFUZZIFY acceptance
+    TERM low := (0.0,1) (0.5, 0);
+    TERM mid := (0.4,0) (0.5,1) (0.7,0);
+    TERM high := (0.6,0) (0.8,1) (1,1);
+    // Use 'Center Of Gravity' defuzzification method
+    METHOD : COG;
+    // Default value is 0 (if no rule activates defuzzifier)
+    DEFAULT := 0.0;
+END_DEFUZZIFY
+
+RULEBLOCK No1
+    AND : MIN;
+    ACT : MIN;
+    ACCU : MAX;
+
+    RULE 1 : IF days_late IS high AND medical_certificate IS false 
+                THEN acceptance IS low;
+
+    RULE 2 : IF days_late IS mid AND medical_certificate IS false 
+                THEN acceptance IS low;
+
+    RULE 3 : IF days_late IS low AND medical_certificate IS false 
+                THEN acceptance IS mid;
+
+    RULE 4 : IF days_late IS high AND medical_certificate IS true 
+                THEN acceptance IS low;
+
+    RULE 5 : IF days_late IS mid AND medical_certificate IS true 
+                THEN acceptance IS mid;
+
+    RULE 6 : IF days_late IS low AND medical_certificate IS true 
+                THEN acceptance IS high;
+
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

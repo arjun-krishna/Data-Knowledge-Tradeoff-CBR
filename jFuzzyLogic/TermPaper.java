@@ -23,7 +23,7 @@ public class TermPaper {
         // JFuzzyChart.get().chart(functionBlock);
 
         // Set inputs
-        functionBlock.setVariable("days_late", 3);
+        functionBlock.setVariable("days_late", 14);
         functionBlock.setVariable("medical_certificate", 1);
 
         // Evaluate
@@ -49,5 +49,4 @@ public class TermPaper {
         System.out.println("A[MIN] = "+acceptance.getUniverseMin());
     }
 }
-
 // http://jfuzzylogic.sourceforge.net/html/manual.html#runfcl
