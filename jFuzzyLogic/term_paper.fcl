@@ -16,8 +16,8 @@ FUZZIFY days_late
 END_FUZZIFY
 
 FUZZIFY medical_certificate
-    TERM false := (0,1) (0.00001,0);
-    TERM true := (0.99999,0) (1,1);
+    TERM false := 0;
+    TERM true := 1;
 END_FUZZIFY
 
 DEFUZZIFY acceptance
