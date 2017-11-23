@@ -21,6 +21,13 @@ main : Main.class
 
 Main.class : Main.java FCBR/*
 	javac -cp .:jdom-2.0.6.jar Main.java
+	
+	
+travel: TravelCBR.class
+	java -cp .:myCBR-3.1.jar TravelCBR ../data/travel_data.csv
+	
+TravelCBR.class : TravelCBR.java
+	javac -cp .:myCBR-3.1.jar TravelCBR.java
 
 clean :
 	rm *.class
