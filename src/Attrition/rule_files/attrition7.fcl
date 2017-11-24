@@ -83,12 +83,7 @@ RULEBLOCK No1
     RULE 7: IF daily_rate IS high AND monthly_income IS mid AND total_working_years IS high AND distance_from_home IS mid 
                 THEN attrition IS low;
     
-    RULE 8: IF daily_rate IS high AND monthly_income IS mid AND total_working_years IS mid AND distance_from_home IS mid 
-                THEN attrition IS low;
-                
-    RULE 9: IF daily_rate IS very_low AND monthly_income IS very_low AND total_working_years IS very_low AND distance_from_home IS high 
-                THEN attrition IS high;
-                
+    
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK

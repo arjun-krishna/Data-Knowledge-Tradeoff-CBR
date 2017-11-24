@@ -90,7 +90,7 @@ public class AttritionCBR {
 				cb.addCase(i);
 				case_map.put("tp"+j, train_cases.get(j));				
 			}
-			System.out.println("Added cases to case base");
+			//System.out.println("Added cases to case base");
 			// set up query and retrieval. the retrieval method, number of cases to retrieve can be set
 			
 			Retrieval retriever; 
@@ -163,23 +163,28 @@ public class AttritionCBR {
 							tn += 1;
 						}
 					}
+					System.out.print(at.result?1:0);
+					System.out.print(" ");
+					System.out.println(isAttrition?1:0);
 				}
+				
 				accuracy /= test_cases.size();
-				System.out.println("Accuracy on Case Base = "+String.format("%.02f", accuracy*100)+"%");
+				//System.out.println("Accuracy on Case Base = "+String.format("%.02f", accuracy*100)+"%");
 				precision = tp/(tp+fp);
-				System.out.println("Precision on class 1 = "+String.format("%.02f", precision*100)+"%");
+				//System.out.println("Precision on class 1 = "+String.format("%.02f", precision*100)+"%");
 				precision = tn/(tn+fn);
-				System.out.println("Precision on class 0 = "+String.format("%.02f", precision*100)+"%");
+				//System.out.println("Precision on class 0 = "+String.format("%.02f", precision*100)+"%");
 				recall = tp/(tp+fn);
-				System.out.println("Recall on class 1 = "+String.format("%.02f", recall*100)+"%");
+				//System.out.println("Recall on class 1 = "+String.format("%.02f", recall*100)+"%");
 				recall = tn/(tn+fp);
-				System.out.println("Recall on class 0 = "+String.format("%.02f", recall*100)+"%");
+				//System.out.println("Recall on class 0 = "+String.format("%.02f", recall*100)+"%");
 	    }
 
 			// Case Base Reduction
 			if (CASE_DELETION) {
 				PrintWriter writer = new PrintWriter("reduced.csv", "UTF-8");
 				int j = train_cases.size()-1;
+				int total_cases = 0;
 				while(j>=0) {
 					Attrition at = train_cases.get(j);
 					int[] features = at.features;
@@ -192,11 +197,14 @@ public class AttritionCBR {
 						}
 						writer.println(at.result?1:0);
 						train_cases.remove(j);
+						total_cases ++;
 						//System.err.println("Case Needed (case number: "+j+", line number: "+(j+2)+", "+acceptance+" )");
 					}
+					
 					j--;
 				}
 				writer.close();
+				//System.out.println("Total cases after reduction: "+total_cases);
 			}
 
 			
