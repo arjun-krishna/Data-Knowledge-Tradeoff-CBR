@@ -55,10 +55,10 @@ RULEBLOCK No1
                 THEN acceptance IS high;
     
     RULE 7: IF days_late IS very_high AND medical_certificate IS false
-    			THEN acceptance IS low;
+                THEN acceptance IS low;
 
-	RULE 8: IF days_late IS very_high AND medical_certificate IS true
-				THEN acceptance IS low;
+    RULE 8: IF days_late IS very_high AND medical_certificate IS true
+                THEN acceptance IS low;
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK

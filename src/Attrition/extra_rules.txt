@@ -1,5 +1,0 @@
-    RULE 9: IF daily_rate IS very_low AND monthly_income IS very_low AND total_working_years IS very_low AND distance_from_home IS high 
-                THEN attrition IS high;
-                
-    RULE 10: IF daily_rate IS very_low AND monthly_income IS very_low AND total_working_years IS very_low AND years_at_company IS very_low 
-                THEN attrition IS high;

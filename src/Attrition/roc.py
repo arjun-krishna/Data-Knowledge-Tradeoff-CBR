@@ -14,10 +14,10 @@ fp = open("outfile2","r")
 y_test = []
 y_score = []
 for line in fp:
-	line = line.strip().split()
-	y_test.append([int(line[0]),1-int(line[0])])
-	y_score.append([int(line[1]),1-int(line[1])])
-	
+  line = line.strip().split()
+  y_test.append([int(line[0]),1-int(line[0])])
+  y_score.append([int(line[1]),1-int(line[1])])
+  
 y_test = np.array(y_test)
 y_score = np.array(y_score)
 
