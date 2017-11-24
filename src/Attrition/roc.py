@@ -37,13 +37,13 @@ roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
 plt.figure()
 lw = 1
 plt.plot(fpr[1], tpr[1], color='red',
-         lw=lw, label='ROC curve without knowledge(area = %0.2f)' % roc_auc[1])
+         lw=lw, label='area = %0.2f' % roc_auc[1])
 plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
 plt.xlim([0.0, 1.0])
 plt.ylim([0.0, 1.05])
 plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
-plt.title('Receiver operating characteristic')
+plt.title('ROC for CBR')
 plt.legend(loc="lower right")
 plt.show()
 
