@@ -24,21 +24,23 @@ import net.sourceforge.jFuzzyLogic.rule.Variable;
 
 public class AttritionCBR {
 
-	public static ArrayList<Attrition> cases;
+	public static ArrayList<Attrition> train_cases;
+	public static ArrayList<Attrition> test_cases;
 	public static HashMap<String, Attrition> case_map;
 	public static FIS fis;
 
 	// Params
 	public static boolean DISPLAY_DEFUZZIFICATION = false;
 	public static boolean INTERACTIVE_INTERFACE = true;
-	public static boolean CASE_DELETION = false;
+	public static boolean CASE_DELETION = true;
 	public static boolean ACCURACY_CHECK = true;
-	public static boolean IS_KNOWLEDGE = true;
+	public static boolean IS_KNOWLEDGE = false;
 
 	public static void main (String[] args) throws Exception{
 
 		// read dataset
-		getCases(args[0]);
+		train_cases = getCases(args[0]);
+		test_cases = getCases(args[1]);
 		try {
 			Project p = new Project();
 			
@@ -80,13 +82,13 @@ public class AttritionCBR {
 			DefaultCaseBase cb = p.createDefaultCB("myCaseBase");
 			// add instances to the casebase
 			Instance i;
-			for (int j=0; j<cases.size(); j++) {
+			for (int j=0; j<train_cases.size(); j++) {
 				i = attrition.addInstance("tp"+j);
 				for(int k=0;k<15;k++){
-					i.addAttribute(featuredescs[k], cases.get(j).features[k]);
+					i.addAttribute(featuredescs[k], train_cases.get(j).features[k]);
 				}
 				cb.addCase(i);
-				case_map.put("tp"+j, cases.get(j));				
+				case_map.put("tp"+j, train_cases.get(j));				
 			}
 			System.out.println("Added cases to case base");
 			// set up query and retrieval. the retrieval method, number of cases to retrieve can be set
@@ -94,7 +96,7 @@ public class AttritionCBR {
 			Retrieval retriever; 
 
 			// Fuzzy Reasoner Initialization
-			fis = FIS.load(args[1], true);
+			fis = FIS.load(args[2], true);
 			if( fis == null ) { 
 				System.err.println("Can't load file => " + args[1]);
 				System.exit(0);
@@ -105,13 +107,13 @@ public class AttritionCBR {
 	    	double accuracy = 0.0;
 	    	double tp = 0.0, tn = 0.0, fp = 0.0, fn = 0.0;
 	    	double precision, recall;
-	    	for (int j=0; j<cases.size(); j++) {
+	    	for (int j=0; j<test_cases.size(); j++) {
 	    	//for(int j=0;j<100;j++){
 	    			//System.out.println(j);
 	    			retriever = new Retrieval(attrition, cb);
 					retriever.setRetrievalMethod(Retrieval.RetrievalMethod.RETRIEVE_K_SORTED);
 					retriever.setK(3);
-					Attrition at = cases.get(j);
+					Attrition at = test_cases.get(j);
 					int[] features = at.features;
 
 					boolean isAttrition = false;
@@ -162,20 +164,24 @@ public class AttritionCBR {
 						}
 					}
 				}
-				accuracy /= cases.size();
+				accuracy /= test_cases.size();
 				System.out.println("Accuracy on Case Base = "+String.format("%.02f", accuracy*100)+"%");
+				precision = tp/(tp+fp);
+				System.out.println("Precision on class 1 = "+String.format("%.02f", precision*100)+"%");
 				precision = tn/(tn+fn);
-				System.out.println("Precision on Case Base = "+String.format("%.02f", precision*100)+"%");
+				System.out.println("Precision on class 0 = "+String.format("%.02f", precision*100)+"%");
+				recall = tp/(tp+fn);
+				System.out.println("Recall on class 1 = "+String.format("%.02f", recall*100)+"%");
 				recall = tn/(tn+fp);
-				System.out.println("Recall on Case Base = "+String.format("%.02f", recall*100)+"%");
+				System.out.println("Recall on class 0 = "+String.format("%.02f", recall*100)+"%");
 	    }
 
 			// Case Base Reduction
 			if (CASE_DELETION) {
 				PrintWriter writer = new PrintWriter("reduced.csv", "UTF-8");
-				int j = cases.size()-1;
+				int j = train_cases.size()-1;
 				while(j>=0) {
-					Attrition at = cases.get(j);
+					Attrition at = train_cases.get(j);
 					int[] features = at.features;
 
 					double acceptance = fuzzyReason(features, false);
@@ -185,7 +191,7 @@ public class AttritionCBR {
 							writer.print(features[k]+",");
 						}
 						writer.println(at.result?1:0);
-						cases.remove(j);
+						train_cases.remove(j);
 						//System.err.println("Case Needed (case number: "+j+", line number: "+(j+2)+", "+acceptance+" )");
 					}
 					j--;
@@ -310,9 +316,9 @@ public class AttritionCBR {
 		return 0.0;
 	}
 	
-	public static void getCases(String fileName) throws Exception{
+	public static ArrayList<Attrition> getCases(String fileName) throws Exception{
 		List<String> lines = Files.readAllLines(Paths.get(fileName));
-		cases = new ArrayList<Attrition>();
+		ArrayList<Attrition> cases = new ArrayList<Attrition>();
 		case_map = new HashMap<String,Attrition>();
 		String[] line_split;
 		int[] vals;
@@ -326,6 +332,7 @@ public class AttritionCBR {
 			res = Integer.parseInt(line_split[15]) == 1;
 			cases.add(new Attrition(vals,res));
 		}
+		return cases;
 	}
 }
 
