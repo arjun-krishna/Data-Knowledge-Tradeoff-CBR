@@ -1,5 +1,10 @@
 ref/
 mycbr/
 report/*
+Previous work/*
+data/*
+dump/*
+fuzzy-reasoner/*
+jFuzzyLogic/*
 data/.ipynb_checkpoints
 **/*.class
