@@ -3,7 +3,7 @@
 * Study the importance of domain knowledge in reducing the number of cases in the case base.
 
 
-A few observations for the term paper example:
+<!-- A few observations for the term paper example:
 In general, most of the predictions are matching with the expected output. In some cases, like days late = 12 and medical certificate = true, though the data does not accept the paper, the CBR system predicts accepted. 
 
 To get the weights for a given domain:
@@ -16,4 +16,4 @@ Previous work has mostly used fuzzy logic in CBR systems for better retrieval i.
 
 Regarding the discussion on "Is CBR same as KNN?". One of the papers mentioned the following: " The  most  commonly  investigated  retrieval  techniques  include  nearest  neighbor retrieval, inductive approaches, knowledge guided approaches, and validated retrieval". Though I do not understand the methods, KNN is modeling the nearest neighbor retrieval technique, while there are a whole lot of other retrieval techniques.
 
-
+ -->
