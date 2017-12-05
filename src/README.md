@@ -1,7 +1,7 @@
-Source Code for Fuzzy-CBR
+Source Code for FuzzyCBR
 ==========================
 
-Go to the corresponding data folder an run make to run the program
+Go to the corresponding data folder an run make to invoke the FuzzyCBR program
 
 ```
 cd TermPaper
